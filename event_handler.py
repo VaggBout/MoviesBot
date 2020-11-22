@@ -9,8 +9,11 @@ async def event_search_movie(message):
     
     if len(search_result) > 0:
         movie_info = imdb_api.get_movie_info(search_result[0])
-        message_response = utils.movie_text_template(movie_info) 
-        await message.channel.send(data.resposnes.get('found'))
-        await message.channel.send(message_response)
+        if movie_info:
+            await message.channel.send(data.resposnes.get('found'))
+            message_response = utils.movie_text_template(movie_info) 
+            await message.channel.send(message_response)
+        else:
+            await message.channel.send(data.resposnes.get('not_found'))
     else:
         await message.channel.send(data.resposnes.get('not_found'))
