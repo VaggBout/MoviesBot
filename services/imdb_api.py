@@ -1,6 +1,7 @@
 import requests
 import json
 import imdb
+from services import utils
 from imdb.Movie import Movie
 
 imdb_data = imdb.IMDb()
@@ -15,21 +16,13 @@ def search_movie(keyword):
 def get_movie_info(movie):
     if(movie):
         movie_details = imdb_data.get_movie(movie.movieID)
-        if movie_details.get('plot'):
-            plot = str(movie_details.get('plot'))
-            index = plot.find('.')
-            plot = plot[1:(index+1)]
-        else:
-            plot = 'Sorry, I could\'nt find the plot'
-        
+        summary = utils.generate_summary(movie_details.get('plot')) if  movie_details.get('plot') else 'Sorry, I could\'nt find the plot'
         rating = movie_details.get('rating') if movie_details.get('rating') else 'Sorry, I could\'nt find the rating'
-        votes = movie_details.get('votes') if movie_details.get('votes') else 'Sorry, I could\'nt find the votes'
 
         info = {
             'title': movie.get('title'),
-            'plot': plot,
-            'rating': rating,
-            'total_votes': votes
+            'plot': summary,
+            'rating': rating
         }
         return info
     else:
