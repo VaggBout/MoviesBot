@@ -1,6 +1,7 @@
 from services import utils
 from services import imdb_api
 from services import data
+from services import youtube_api
 
 async def event_search_movie(message):
     # TODO: Check if message is PM or from channel somehow
@@ -15,7 +16,9 @@ async def event_search_movie(message):
     if search_result:
         movie_info = imdb_api.get_movie_info(search_result[0])
         if movie_info:
+            yt_trailer_url = youtube_api.get_trailer_url(movie_info.get('title'))
             await message.channel.send(data.resposnes.get('found'))
+            movie_info['yt_trailer'] = yt_trailer_url
             message_response = utils.movie_text_template(movie_info) 
             await message.channel.send(message_response)
         else:

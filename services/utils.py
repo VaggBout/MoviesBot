@@ -30,4 +30,6 @@ def movie_text_template(movie_info):
                 +'\nScore: '+str(movie_info.get('rating'))
                 +'\nSummary: '+str(movie_info.get('plot'))
                 )
+    if(movie_info.get('yt_trailer')):
+        response += 'Trailer: ' +str(movie_info.get('yt_trailer'))
     return response

@@ -10,6 +10,10 @@ discord_token = os.getenv('discord_token')
 if not discord_token:
     print('Discord token required for this application')
     sys.exit()
+
+if not os.getenv('youtube_token'):
+    print('Youtube token required for this application')
+    sys.exit()
     
 client = discord.Client()
 
